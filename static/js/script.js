@@ -12,6 +12,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var fullResults = document.getElementById('fullResults');
     var regPlate = document.querySelector('.reg-plate');
 
+    // Set default theme to 'cyborg' if no theme is stored
+    var currentTheme = localStorage.getItem('theme') || 'cyborg';
+    themeLink.href = `https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/${currentTheme}/bootstrap.min.css`;
+    themeSelect.value = currentTheme;
+
     function applyTheme(theme) {
         if (theme === 'default') {
             theme = 'solar';

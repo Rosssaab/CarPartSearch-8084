@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, redirect, url_for
 import requests
 import os
 from dotenv import load_dotenv
@@ -57,23 +57,20 @@ def index():
     car_details = None
     error = None
     reg_number = None
-    theme = request.args.get('theme', 'default')  # Default theme is 'default'
+    theme = request.args.get('theme', 'cyborg')  # Default theme is 'cyborg'
 
     if request.method == 'POST':
-        if 'search_car' in request.form:
-            try:
-                reg_number = request.form.get('reg_number', '').upper()
-                logger.debug(f"Received registration number: {reg_number}")
-                car_details = get_car_details(reg_number)
-            except Exception as e:
-                logger.exception(f"An error occurred during car lookup: {str(e)}")
-                error = f"An error occurred during car lookup: {str(e)}"
-
+        reg_number = request.form.get('reg_number', '').upper()
+        try:
+            car_details = get_car_details(reg_number)
+        except Exception as e:
+            error = f"An error occurred during car lookup: {str(e)}"
+    
     return render_template('index.html', car_details=car_details, error=error, theme=theme, theme_options=THEME_OPTIONS, reg_number=reg_number)
 
 @app.route('/<theme>')
 def themed_index(theme):
-    return index()
+    return redirect(url_for('index', theme=theme))
 
 if __name__ == '__main__':
     from waitress import serve
