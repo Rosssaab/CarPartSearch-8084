@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var newSearchButton = document.getElementById('newSearchButton');
     var resultsSection = document.getElementById('resultsSection');
     var carLookupForm = document.getElementById('carLookupForm');
+    var moreButton = document.getElementById('moreButton');
+    var fullResults = document.getElementById('fullResults');
 
     function applyTheme(theme) {
         if (theme === 'default') {
@@ -51,4 +53,16 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
         }
     });
+
+    if (moreButton) {
+        moreButton.addEventListener('click', function() {
+            if (fullResults.style.display === 'none') {
+                fullResults.style.display = 'block';
+                moreButton.textContent = 'Less';
+            } else {
+                fullResults.style.display = 'none';
+                moreButton.textContent = 'More';
+            }
+        });
+    }
 });

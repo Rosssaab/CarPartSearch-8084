@@ -103,3 +103,19 @@ button:hover {
     font-size: 18px;
     letter-spacing: normal;
 }
+
+#condensedResults {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#condensedResults span {
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+#moreButton {
+    margin-left: auto;
+}
