@@ -28,10 +28,12 @@
 
     <div class="container mt-3">
         <h3 class="mb-3">Car Lookup</h3>
+        <div id="currentReg" class="mb-3" style="display: none;">
+            <strong>Current Registration:</strong> <span id="currentRegText"></span>
+        </div>
         <form method="POST" id="carLookupForm">
-            <input type="hidden" name="search_car" value="1">
-            <div class="mb-3">
-                <label for="reg_number" class="form-label">Registration Number</label>
+            <div id="regInputContainer">
+                <h2 id="regDisplay" class="text-center mb-3">Enter your registration</h2>
                 <div class="reg-plate">
                     <div class="blue-band">GB</div>
                     <input type="text" class="form-control" id="reg_number" name="reg_number" 
@@ -40,6 +42,7 @@
                            title="Enter up to 7 alphanumeric characters">
                 </div>
             </div>
+            <input type="hidden" name="search_car" value="1">
             <button type="submit" id="lookupButton" class="btn btn-primary">Lookup</button>
             <button type="button" id="newSearchButton" class="btn btn-secondary" style="display: none;">New Search</button>
         </form>

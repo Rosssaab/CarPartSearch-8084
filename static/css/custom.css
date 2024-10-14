@@ -62,8 +62,8 @@ button:hover {
 .reg-plate {
     display: inline-flex;
     align-items: center;
-    background-color: #F1CF58; /* Yellow color for UK plates */
-    border: 3px solid #000;
+    background-color: #FDE74C; /* Yellow color for UK plates */
+    border: 2px solid #000;
     border-radius: 5px;
     padding: 0;
     font-size: 18px;
@@ -71,16 +71,17 @@ button:hover {
     text-transform: uppercase;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     overflow: hidden;
+    max-width: 270px;
 }
 
 .blue-band {
-    background-color: #0054A6; /* Blue color for UK plates */
+    background-color: #003399; /* Blue color for UK plates */
     color: white;
-    padding: 10px 5px;
+    padding: 8px 5px;
     font-size: 14px;
     font-weight: bold;
     text-align: center;
-    margin-right: 10px;
+    width: 40px;
 }
 
 #reg_number {
@@ -118,4 +119,19 @@ button:hover {
 
 #moreButton {
     margin-left: auto;
+}
+
+#currentReg {
+    font-size: 1.2em;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.large-reg {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #003399;
+    margin-bottom: 20px;
 }

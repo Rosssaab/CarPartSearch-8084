@@ -6,8 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var newSearchButton = document.getElementById('newSearchButton');
     var resultsSection = document.getElementById('resultsSection');
     var carLookupForm = document.getElementById('carLookupForm');
+    var regInputContainer = document.getElementById('regInputContainer');
+    var regDisplay = document.getElementById('regDisplay');
     var moreButton = document.getElementById('moreButton');
     var fullResults = document.getElementById('fullResults');
+    var regPlate = document.querySelector('.reg-plate');
 
     function applyTheme(theme) {
         if (theme === 'default') {
@@ -31,10 +34,13 @@ document.addEventListener('DOMContentLoaded', function() {
         this.value = this.value.toUpperCase();
     });
 
-    // Show results and change buttons
+    // Show results, change buttons, and update registration display
     if (resultsSection) {
         lookupButton.style.display = 'none';
         newSearchButton.style.display = 'inline-block';
+        regInput.style.display = 'none';
+        regDisplay.textContent = regInput.value;
+        regDisplay.classList.add('large-reg');
     }
 
     // New Search button functionality
@@ -45,6 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         lookupButton.style.display = 'inline-block';
         newSearchButton.style.display = 'none';
+        regInput.style.display = 'block';
+        regDisplay.textContent = 'Enter your registration';
+        regDisplay.classList.remove('large-reg');
     });
 
     // Prevent form submission if New Search is clicked

@@ -42,7 +42,10 @@ def get_car_details(reg_number):
     }
 
     try:
+        logger.debug(f"Sending request to DVLA API: URL={DVLA_API_URL}, payload={payload}")
         response = requests.post(DVLA_API_URL, json=payload, headers=headers)
+        logger.debug(f"Response status code: {response.status_code}")
+        logger.debug(f"Response content: {response.text}")
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
@@ -59,6 +62,7 @@ def index():
         if 'search_car' in request.form:
             try:
                 reg_number = request.form.get('reg_number', '')
+                logger.debug(f"Received registration number: {reg_number}")
                 car_details = get_car_details(reg_number)
             except Exception as e:
                 logger.exception(f"An error occurred during car lookup: {str(e)}")
