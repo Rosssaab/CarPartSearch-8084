@@ -2,114 +2,74 @@ from flask import Flask, render_template, request
 import requests
 import os
 from dotenv import load_dotenv
-from waitress import serve
-import base64
+import waitress
 import logging
-import time
 
 # Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
 
-# Get the Spotify API credentials from environment variables
-SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
-SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
-
-# Add this debug logging to verify the credentials are loaded correctly
-print(f"SPOTIFY_CLIENT_ID: {SPOTIFY_CLIENT_ID}")
-print(f"SPOTIFY_CLIENT_SECRET: {SPOTIFY_CLIENT_SECRET[:5]}...") # Only print the first 5 characters for security
+# Get the DVLA API key from environment variables
+DVLA_API_KEY = os.getenv('DVLA_API_KEY')
+DVLA_API_URL = 'https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles'
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-logger.debug(f"SPOTIFY_CLIENT_ID: {SPOTIFY_CLIENT_ID}")
-logger.debug(f"SPOTIFY_CLIENT_SECRET: {SPOTIFY_CLIENT_SECRET[:5]}...") # Only log the first 5 characters for security
+logger.debug(f"DVLA_API_KEY: {DVLA_API_KEY[:5]}...")
 
-# Global variables for token management
-spotify_token = None
-token_expiration_time = 0
+# Define theme options
+THEME_OPTIONS = [
+    ('default', 'Default'),
+    ('cyborg', 'Cyborg'),
+    ('darkly', 'Darkly'),
+    ('lumen', 'Lumen'),
+    ('minty', 'Minty'),
+    ('pulse', 'Pulse'),
+    ('sandstone', 'Sandstone'),
+    ('solar', 'Solar')
+]
 
-def get_spotify_token():
-    global spotify_token, token_expiration_time
-    
-    # Check if we have a valid token
-    if spotify_token and time.time() < token_expiration_time:
-        return spotify_token
-
-    auth_string = f"{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}"
-    auth_bytes = auth_string.encode("utf-8")
-    auth_base64 = str(base64.b64encode(auth_bytes), "utf-8")
-
-    url = "https://accounts.spotify.com/api/token"
+def get_car_details(reg_number):
     headers = {
-        "Authorization": f"Basic {auth_base64}",
-        "Content-Type": "application/x-www-form-urlencoded"
+        'x-api-key': DVLA_API_KEY,
+        'Content-Type': 'application/json'
     }
-    data = {"grant_type": "client_credentials"}
-    
+    payload = {
+        'registrationNumber': reg_number
+    }
+
     try:
-        response = requests.post(url, headers=headers, data=data)
+        response = requests.post(DVLA_API_URL, json=payload, headers=headers)
         response.raise_for_status()
-        json_result = response.json()
-        
-        spotify_token = json_result["access_token"]
-        token_expiration_time = time.time() + json_result.get("expires_in", 3600) - 300  # Subtract 5 minutes for safety
-        return spotify_token
+        return response.json()
     except requests.exceptions.RequestException as e:
-        logger.error(f"Error obtaining Spotify access token: {e}")
+        logger.error(f"Error fetching car details: {e}")
         raise
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    songs = []
+    car_details = None
     error = None
-    theme = request.args.get('theme', 'quartz')  # Default theme is quartz
+    theme = request.args.get('theme', 'default')  # Default theme is 'default'
 
     if request.method == 'POST':
-        try:
-            # Get search parameters
-            track = request.form.get('track', '')
-            artist = request.form.get('artist', '')
-            album = request.form.get('album', '')
+        if 'search_car' in request.form:
+            try:
+                reg_number = request.form.get('reg_number', '')
+                car_details = get_car_details(reg_number)
+            except Exception as e:
+                logger.exception(f"An error occurred during car lookup: {str(e)}")
+                error = f"An error occurred during car lookup: {str(e)}"
 
-            # Construct the query
-            query = '+'.join(filter(None, [
-                f'track:{track}' if track else '',
-                f'artist:{artist}' if artist else '',
-                f'album:{album}' if album else ''
-            ]))
-
-            # Get Spotify access token
-            token = get_spotify_token()
-
-            # Make a request to the Spotify API
-            url = f'https://api.spotify.com/v1/search?q={query}&type=track'
-            headers = {
-                "Authorization": f"Bearer {token}"
-            }
-            response = requests.get(url, headers=headers)
-            response.raise_for_status()
-            data = response.json()
-
-            # Check if there are any songs returned
-            if 'tracks' in data and 'items' in data['tracks']:
-                songs = data['tracks']['items']
-            else:
-                error = "No songs found matching your criteria."
-
-        except Exception as e:
-            logger.exception(f"An error occurred during search: {str(e)}")
-            error = f"An error occurred: {str(e)}"
-
-    return render_template('index.html', songs=songs, error=error, theme=theme)
+    return render_template('index.html', car_details=car_details, error=error, theme=theme, theme_options=THEME_OPTIONS)
 
 @app.route('/<theme>')
 def themed_index(theme):
     return index()
 
 if __name__ == '__main__':
-    from waitress import serve
-    print("Starting server on http://localhost:8080")
-    serve(app, host='0.0.0.0', port=8082)
+    print("Starting server on http://localhost:8084")
+    waitress.serve(app, host='0.0.0.0', port=8084)
