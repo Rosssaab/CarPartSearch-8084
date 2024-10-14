@@ -112,4 +112,4 @@ def themed_index(theme):
 if __name__ == '__main__':
     from waitress import serve
     print("Starting server on http://localhost:8080")
-    serve(app, host='127.0.0.1', port=8082)
+    serve(app, host='0.0.0.0', port=8082)
