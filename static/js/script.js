@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     var themeSelect = document.getElementById('theme-select');
     var themeLink = document.getElementById('theme-link');
     var regInput = document.getElementById('reg_number');
+    var lookupButton = document.getElementById('lookupButton');
+    var newSearchButton = document.getElementById('newSearchButton');
+    var resultsSection = document.getElementById('resultsSection');
+    var carLookupForm = document.getElementById('carLookupForm');
 
     function applyTheme(theme) {
         if (theme === 'default') {
@@ -23,5 +27,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     regInput.addEventListener('input', function() {
         this.value = this.value.toUpperCase();
+    });
+
+    // Show results and change buttons
+    if (resultsSection) {
+        lookupButton.style.display = 'none';
+        newSearchButton.style.display = 'inline-block';
+    }
+
+    // New Search button functionality
+    newSearchButton.addEventListener('click', function() {
+        regInput.value = '';
+        if (resultsSection) {
+            resultsSection.style.display = 'none';
+        }
+        lookupButton.style.display = 'inline-block';
+        newSearchButton.style.display = 'none';
+    });
+
+    // Prevent form submission if New Search is clicked
+    carLookupForm.addEventListener('submit', function(event) {
+        if (newSearchButton.style.display === 'inline-block') {
+            event.preventDefault();
+        }
     });
 });

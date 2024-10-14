@@ -33,13 +33,15 @@
             <div class="mb-3">
                 <label for="reg_number" class="form-label">Registration Number</label>
                 <div class="reg-plate">
+                    <div class="blue-band">GB</div>
                     <input type="text" class="form-control" id="reg_number" name="reg_number" 
-                           placeholder="Enter reg number" required 
-                           maxlength="10" pattern="[A-Za-z0-9]{1,10}"
-                           title="Enter up to 10 alphanumeric characters">
+                           placeholder="Enter reg" required 
+                           maxlength="7" pattern="[A-Za-z0-9]{1,7}"
+                           title="Enter up to 7 alphanumeric characters">
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Lookup</button>
+            <button type="submit" id="lookupButton" class="btn btn-primary">Lookup</button>
+            <button type="button" id="newSearchButton" class="btn btn-secondary" style="display: none;">New Search</button>
         </form>
 
         {% if error %}
@@ -49,7 +51,7 @@
         {% endif %}
 
         {% if car_details %}
-            <div class="mt-4">
+            <div id="resultsSection" class="mt-4">
                 <h4>Car Details</h4>
                 <table class="table">
                     <tbody>
