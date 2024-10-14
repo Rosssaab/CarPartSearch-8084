@@ -136,3 +136,8 @@ button:hover {
     margin-bottom: 20px;
     text-align: center;
 }
+
+.searched-reg {
+    color: #ff0000; /* or any color you prefer */
+    font-weight: bolder;
+}

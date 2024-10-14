@@ -38,9 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (resultsSection) {
         lookupButton.style.display = 'none';
         newSearchButton.style.display = 'inline-block';
-        regInput.style.display = 'none';
-        regDisplay.textContent = 'Showing search results for ' + regInput.value;
-        regDisplay.classList.add('large-reg');
+        regInputContainer.style.display = 'none';
     }
 
     // New Search button functionality
@@ -51,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         lookupButton.style.display = 'inline-block';
         newSearchButton.style.display = 'none';
-        regInput.style.display = 'block';
+        regInputContainer.style.display = 'block';
         regDisplay.textContent = 'Enter your registration';
         regDisplay.classList.remove('large-reg');
     });
