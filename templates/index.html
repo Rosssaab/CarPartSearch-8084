@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Lookup</title>
     <link id="theme-link" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/{{ theme }}/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
     <style>
         /* ... (keep all existing styles) ... */
         .tab-content {
@@ -31,10 +32,12 @@
             <input type="hidden" name="search_car" value="1">
             <div class="mb-3">
                 <label for="reg_number" class="form-label">Registration Number</label>
-                <input type="text" class="form-control" id="reg_number" name="reg_number" 
-                       placeholder="Enter car registration number" required 
-                       maxlength="10" pattern="[A-Za-z0-9]{1,10}"
-                       title="Enter up to 10 alphanumeric characters">
+                <div class="reg-plate">
+                    <input type="text" class="form-control" id="reg_number" name="reg_number" 
+                           placeholder="Enter reg number" required 
+                           maxlength="10" pattern="[A-Za-z0-9]{1,10}"
+                           title="Enter up to 10 alphanumeric characters">
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Lookup</button>
         </form>

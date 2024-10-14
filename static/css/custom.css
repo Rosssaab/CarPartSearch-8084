@@ -58,3 +58,32 @@ button:hover {
     padding: 5px;
     border-radius: 4px;
 }
+
+.reg-plate {
+    display: inline-block;
+    background-color: yellow;
+    border: 2px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#reg_number {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;
+    color: #000;
+    width: 200px;
+}
+
+#reg_number::placeholder {
+    color: #999;
+}
