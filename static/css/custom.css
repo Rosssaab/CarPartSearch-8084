@@ -130,8 +130,9 @@ button:hover {
 }
 
 .large-reg {
-    font-size: 2.5em;
+    font-size: 1.8em;
     font-weight: bold;
     color: #003399;
     margin-bottom: 20px;
+    text-align: center;
 }

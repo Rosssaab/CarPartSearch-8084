@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         lookupButton.style.display = 'none';
         newSearchButton.style.display = 'inline-block';
         regInput.style.display = 'none';
-        regDisplay.textContent = regInput.value;
+        regDisplay.textContent = 'Showing search results for ' + regInput.value;
         regDisplay.classList.add('large-reg');
     }
 
