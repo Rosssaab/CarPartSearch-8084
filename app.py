@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 import requests
 import os
 from dotenv import load_dotenv
@@ -8,7 +8,7 @@ import logging
 # Load environment variables
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 # Get the DVLA API key from environment variables
 DVLA_API_KEY = os.getenv('DVLA_API_KEY')

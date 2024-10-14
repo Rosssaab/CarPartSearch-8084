@@ -31,7 +31,10 @@
             <input type="hidden" name="search_car" value="1">
             <div class="mb-3">
                 <label for="reg_number" class="form-label">Registration Number</label>
-                <input type="text" class="form-control" id="reg_number" name="reg_number" placeholder="Enter car registration number" required>
+                <input type="text" class="form-control" id="reg_number" name="reg_number" 
+                       placeholder="Enter car registration number" required 
+                       maxlength="10" pattern="[A-Za-z0-9]{1,10}"
+                       title="Enter up to 10 alphanumeric characters">
             </div>
             <button type="submit" class="btn btn-primary">Lookup</button>
         </form>
@@ -60,29 +63,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var themeSelect = document.getElementById('theme-select');
-        var themeLink = document.getElementById('theme-link');
-
-        function applyTheme(theme) {
-            if (theme === 'default') {
-                theme = 'solar';
-            }
-            themeLink.href = `https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/${theme}/bootstrap.min.css`;
-        }
-
-        themeSelect.addEventListener('change', function() {
-            var selectedTheme = this.value;
-            applyTheme(selectedTheme);
-            
-            // Update the URL without reloading the page
-            history.pushState(null, '', `/${selectedTheme}`);
-        });
-
-        // Apply the initial theme
-        applyTheme('{{ theme }}');
-    });
-    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
